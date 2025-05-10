@@ -3,19 +3,19 @@ package com.pluralsight;
 public class Vehicle {
 
     //Set attribute/properties for the car
-
+//skull => that represent what it need to become.
     private int vin;
     private int year;
     private String make;
     private String model;
     private String type;
     private String color;
-    private double odometer;
+    private int odometer;
     private double price;
 
 //Generate a constructor
 
-    public Vehicle(int vin, int year, String make, String model, String type, String color, double odometer, double price) {
+    public Vehicle(int vin, int year, String make, String model, String type, String color, int odometer, double price) {
         this.vin = vin;
         this.year = year;
         this.make = make;
@@ -25,18 +25,18 @@ public class Vehicle {
         this.odometer = odometer;
         this.price = price;
     }
-    //Custom method
+    //Custom method  toString method show us error on mistake, make the code safe/clean, easy to read/understand when other want what my object is.
     @Override
     public String toString() {
         return "Vehicle{" +
-                "vin=" + vin +
-                ", year=" + year +
-                ", make='" + make + '\'' +
-                ", model='" + model + '\'' +
-                ", type='" + type + '\'' +
-                ", color='" + color + '\'' +
-                ", odometer=" + odometer +
-                ", price=" + price +
+                "vin : " + vin +
+                ", year : " + year +
+                ", make : " + make + '\'' +
+                ", model : " + model + '\'' +
+                ", type : " + type + '\'' +
+                ", color : " + color + '\'' +
+                ", odometer : " + odometer +
+                ", price : " + price +
                 '}';
     }
 
@@ -94,7 +94,7 @@ public class Vehicle {
         return odometer;
     }
 
-    public void setOdometer(double odometer) {
+    public void setOdometer(int odometer) {
         this.odometer = odometer;
     }
 

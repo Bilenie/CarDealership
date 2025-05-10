@@ -1,12 +1,15 @@
 package com.pluralsight;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class UserInterface {
-//set it static
+    //set it static
     //object..
-private static Dealership dealership;
+    private static Dealership dealership;
 
     // Private constructor to prevent instantiation
-    private UserInterface() {}
+   public UserInterface() {}
 
     // This method launches the menu and keeps looping until the user exits
     public static void display() {
@@ -136,7 +139,8 @@ private static Dealership dealership;
 
     // Show all vehicles in the dealership
     public static void processAllVehiclesRequest() {
-        ArrayList<Vehicle> vehicles = dealership.getAllVehicles();
+        ArrayList<Vehicle> vehicles = dealership.getAllVehicle();
+        System.out.println(vehicles.get(0));
         displayVehicles(vehicles);
     }
 
@@ -186,7 +190,8 @@ private static Dealership dealership;
         int vin = scanner.nextInt();
 
         Vehicle vehicleToRemove = null;
-        for (Vehicle currentVehicle : dealership.getAllVehicles()) {
+
+        for (Vehicle currentVehicle : dealership.getAllVehicle()) {
             if (currentVehicle.getVin() == vin) {
                 vehicleToRemove = currentVehicle;
                 break;

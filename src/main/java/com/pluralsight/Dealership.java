@@ -33,16 +33,83 @@ public class Dealership {
 
     }
 
-    public void removeVehicle(String vin) {
+    public void removeVehicle(Vehicle vehicle) {
         //leave empty for now
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).getVin() == vehicle.getVin()) {
+        for (int i = 0; i < inventory.size(); i++) {//one by one it replacing not storing overwritten not storing one is for one no duplicate
+            if (inventory.get(i).getVin() == vehicle.getVin()) {// is it the same hand color when find the same color type
                 inventory.remove(i); // stop after removing first match
                 break;
             }
         }
 
     }
+    public ArrayList<Vehicle> getVehiclesByPrice(double min , double max ){
+        ArrayList<Vehicle> matches = new ArrayList<>();
+        for(int i =0 ; i < inventory.size() ; i++){
+            Vehicle vehicle = inventory.get(i);
+            if(vehicle.getPrice()>=min && vehicle.getPrice()<= max){
+                matches.add(vehicle);
+            }
+        }
+        return matches;
+    }
+
+    public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model){
+        ArrayList<Vehicle> matches = new ArrayList<>();
+        for(int i =0 ; i < inventory.size() ; i++){
+            Vehicle vehicle = inventory.get(i);
+            if(vehicle.getMake().equalsIgnoreCase(make)  && vehicle.getModel().equalsIgnoreCase(model)){
+                matches.add(vehicle);
+            }
+        }
+        return matches;
+    }
+
+    public ArrayList<Vehicle> getVehiclesByYear( int min , int max){
+        ArrayList<Vehicle> matches = new ArrayList<>();
+        for(int i =0 ; i < inventory.size() ; i++){
+            Vehicle vehicle = inventory.get(i);
+            if(vehicle.getYear()>=min && vehicle.getYear()<= max){
+                matches.add(vehicle);
+            }
+        }
+        return matches;
+    }
+
+    public ArrayList<Vehicle> getVehiclesByColor(String color){
+        ArrayList<Vehicle> matches = new ArrayList<>();
+        for(int i =0 ; i < inventory.size() ; i++){
+            Vehicle vehicle = inventory.get(i);
+            if(vehicle.getColor().equalsIgnoreCase(color) ){
+                matches.add(vehicle);
+            }
+        }
+        return matches;
+    }
+
+    public ArrayList<Vehicle> getVehiclesByMileage( int min , int max){
+        ArrayList<Vehicle> matches = new ArrayList<>();
+        for(int i =0 ; i < inventory.size() ; i++){
+            Vehicle vehicle = inventory.get(i);
+            if(vehicle.getOdometer()>=min && vehicle.getOdometer()<= max){
+                matches.add(vehicle);
+            }
+        }
+        return matches;
+    }
+
+    public ArrayList<Vehicle> getVehiclesByType(String type){
+        ArrayList<Vehicle> matches = new ArrayList<>();
+        for(int i =0 ; i < inventory.size() ; i++){
+            Vehicle vehicle = inventory.get(i);
+            if(vehicle.getType().equalsIgnoreCase(type) ){
+                matches.add(vehicle);
+            }
+        }
+        return matches;
+    }
+
+
 
     //Generate getter and setter
 
