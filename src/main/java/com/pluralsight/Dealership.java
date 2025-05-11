@@ -35,14 +35,16 @@ public class Dealership {
 
     public void removeVehicle(Vehicle vehicle) {
         //leave empty for now
+        ArrayList<Vehicle> matches = new ArrayList<>();
         for (int i = 0; i < inventory.size(); i++) {//one by one it replacing not storing overwritten not storing one is for one no duplicate
-            if (inventory.get(i).getVin() == vehicle.getVin()) {// is it the same hand color when find the same color type
-                inventory.remove(i); // stop after removing first match
+            Vehicle vehicles = inventory.get(i);
+            if (vehicles.getVin() == vehicle.getVin()) {// is it the same hand color when find the same color type
+               matches.remove(i); // stop after removing first match
                 break;
             }
         }
-
     }
+
     public ArrayList<Vehicle> getVehiclesByPrice(double min , double max ){
         ArrayList<Vehicle> matches = new ArrayList<>();
         for(int i =0 ; i < inventory.size() ; i++){

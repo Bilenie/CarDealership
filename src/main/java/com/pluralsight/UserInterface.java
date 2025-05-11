@@ -19,6 +19,7 @@ public class UserInterface {
 
         while (menuRunning) {
             // Show menu options
+            System.out.println("\n=== Welcome to Sunshine Auto! ===");
             System.out.println("\n=== Car Dealership Menu ===");
             System.out.println("1 - Find vehicles by price");
             System.out.println("2 - Find vehicles by make/model");
