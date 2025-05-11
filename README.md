@@ -113,7 +113,7 @@ Thanks to my instructor, tutor center support, my peers, lots of Googling, and A
 ## 📁 Repository Setup
 
 ```bash
-git clone https://github.com/your-username/CarDealership.git
+git clone [https://github.com/your-username/CarDealership.git](https://github.com/Bilenie/CarDealership.git)
 cd /Pluralsight/workshop/CarDealership
 
 ```
