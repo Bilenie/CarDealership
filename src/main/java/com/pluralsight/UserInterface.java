@@ -66,6 +66,8 @@ public class UserInterface {
 
     // Loads the dealership inventory from the file using DealershipFileManager
     private static void init() {
+        UserInterface ui = new UserInterface();
+        ui.showLoadingSpinner(1000); // 1 second spinner
         DealershipFileManager dfm = new DealershipFileManager();
         dealership = dfm.getDealership();
     }
@@ -178,10 +180,14 @@ public class UserInterface {
         Vehicle newVehicle = new Vehicle(vin, year, make, model, type, color, mileage, price);
         dealership.addVehicle(newVehicle);
 
+        UserInterface ui = new UserInterface();
+        ui.showLoadingSpinner(1000); // 1 second spinner
+
         DealershipFileManager dfm = new DealershipFileManager();
         dfm.saveDealership(dealership);
 
         System.out.println("Vehicle added successfully.");
+        waitForEnter();
     }
 
     // Remove a vehicle by VIN
@@ -199,20 +205,16 @@ public class UserInterface {
             }
         }
 
-        // Example of equivalent long form loop:
-        // for (int index = 0; index < dealership.getAllVehicles().size(); index++) {
-        //     Vehicle currentVehicle = dealership.getAllVehicles().get(index);
-        //     if (currentVehicle.getVin() == vin) {
-        //         vehicleToRemove = currentVehicle;
-        //         break;
-        //     }
-        // }
-
         if (vehicleToRemove != null) {
             dealership.removeVehicle(vehicleToRemove);
+
+            UserInterface ui = new UserInterface();
+            ui.showLoadingSpinner(1000); // 1 second spinner
+
             DealershipFileManager dfm = new DealershipFileManager();
             dfm.saveDealership(dealership);
             System.out.println("Vehicle removed successfully.");
+            waitForEnter();
         } else {
             System.out.println("Vehicle with that VIN not found.");
         }
@@ -226,13 +228,66 @@ public class UserInterface {
             for (Vehicle currentVehicle : vehicleList) {
                 System.out.println(currentVehicle);
             }
-
-            // Example of equivalent long form loop:
-            // for (int index = 0; index < vehicleList.size(); index++) {
-            //     Vehicle currentVehicle = vehicleList.get(index);
-            //     System.out.println(currentVehicle);
-            // }
         }
+        waitForEnter();
     }
 
+    // ... your other methods (displayMenu, handleUserInput, etc.)
+
+    // gives the user a visual spinner for loading. Useful and looks professional.
+    public void showLoadingSpinner(int durationMillis) {
+        char[] spinner = {'|', '/', '-', '\\'};
+        long startTime = System.currentTimeMillis();
+
+        while (System.currentTimeMillis() - startTime < durationMillis) {
+            for (char ch : spinner) {
+                System.out.print("\rLoading " + ch);
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    System.out.println("\nLoading interrupted.");
+                    return;
+                }
+            }
+        }
+
+        System.out.print("\rLoading done!         \n");
+    }
+
+    //Method waits until user presses Enter gives control to user.
+    public static void waitForEnter() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
 }
+//similar method for control the display time and input time
+/*    public void showLoadingDots(int durationMillis) {
+        int dotCount = 0;
+        long startTime = System.currentTimeMillis();
+
+        while (System.currentTimeMillis() - startTime < durationMillis) {
+            String dots = ".".repeat(dotCount % 4);
+            System.out.print("\rLoading" + dots + "   ");
+            dotCount++;
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println("\nLoading interrupted.");
+                return;
+            }
+        }
+
+        System.out.print("\rLoading complete!      \n");
+    }
+
+Waits for a specific time in milliseconds (like 2000 ms = 2 seconds).Then continues automatically.
+    public void pauseBeforeContinuing(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            System.out.println("Pause interrupted.");
+        }
+    }*/
+
