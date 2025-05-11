@@ -8,13 +8,13 @@ A simple Java console application that allows users to manage a car dealership's
 
 ### User Interactions
 
-1. View all vehicles
-2. Search vehicles by price range
-3. Search vehicles by make/model
-4. Search vehicles by year range
-5. Search vehicles by color
-6. Search vehicles by mileage range
-7. Search vehicles by type
+1. Search vehicles by price range
+2. Search vehicles by make/model
+3. Search vehicles by year range
+4. Search vehicles by color
+5. Search vehicles by mileage/odometer range
+6. Search vehicles by type
+7. View all vehicles
 8. Add a vehicle to inventory
 9. Remove a vehicle from inventory
 10. Exit application
@@ -26,8 +26,8 @@ A simple Java console application that allows users to manage a car dealership's
 ### `Vehicle.java`
 
 * Fields: `vin`, `year`, `make`, `model`, `type`, `color`, `odometer`, `price`
-* Getters and setters
 * `toString()` override
+* Getters and setters
 
 ### `Dealership.java`
 
@@ -37,7 +37,7 @@ A simple Java console application that allows users to manage a car dealership's
   * `addVehicle(Vehicle vehicle)`
   * `removeVehicle(String vin)`
   * `getAllVehicles()`
-  * `Search` methods stubbed initially
+  * `Search/find/filter` methods 
 
 ### `DealershipFileManager.java`
 
@@ -72,7 +72,7 @@ vin|year|make|model|type|color|odometer|price
 ## 📋 Example Usage
 
 ```
-Welcome to Sunshine Auto!
+Welcome to Bilenie Auto!
 1. Search By Price
 7. View All Vehicles
 ...
