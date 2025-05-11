@@ -100,7 +100,7 @@ Enter your choice: 1
 ## 🛠 Requirements
 
 * Java 8+
-* IntelliJ or VS Code (recommended)
+* IntelliJ
 
 ---
 
