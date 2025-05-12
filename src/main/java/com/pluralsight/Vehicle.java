@@ -10,12 +10,12 @@ public class Vehicle {
     private String model;
     private String type;
     private String color;
-    private int odometer;
+    private double odometer;
     private double price;
 
 //Generate a constructor
 
-    public Vehicle(int vin, int year, String make, String model, String type, String color, int odometer, double price) {
+    public Vehicle(int vin, int year, String make, String model, String type, String color, double odometer, double price) {
         this.vin = vin;
         this.year = year;
         this.make = make;

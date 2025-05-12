@@ -9,7 +9,8 @@ public class UserInterface {
     private static Dealership dealership;
 
     // Private constructor to prevent instantiation
-   public UserInterface() {}
+    public UserInterface() {
+    }
 
     // This method launches the menu and keeps looping until the user exits
     public static void display() {
@@ -45,15 +46,33 @@ public class UserInterface {
 
             // Route to the appropriate method
             switch (option) {
-                case 1: processGetByPriceRequest(); break;
-                case 2: processGetByMakeModelRequest(); break;
-                case 3: processGetByYearRequest(); break;
-                case 4: processGetByColorRequest(); break;
-                case 5: processGetByMileageRequest(); break;
-                case 6: processGetByVehicleTypeRequest(); break;
-                case 7: processAllVehiclesRequest(); break;
-                case 8: processAddVehicleRequest(); break;
-                case 9: processRemoveVehicleRequest(); break;
+                case 1:
+                    processGetByPriceRequest();
+                    break;
+                case 2:
+                    processGetByMakeModelRequest();
+                    break;
+                case 3:
+                    processGetByYearRequest();
+                    break;
+                case 4:
+                    processGetByColorRequest();
+                    break;
+                case 5:
+                    processGetByMileageRequest();
+                    break;
+                case 6:
+                    processGetByVehicleTypeRequest();
+                    break;
+                case 7:
+                    processAllVehiclesRequest();
+                    break;
+                case 8:
+                    processAddVehicleRequest();
+                    break;
+                case 9:
+                    processRemoveVehicleRequest();
+                    break;
                 case 99:
                     System.out.println("Goodbye!");
                     menuRunning = false;
@@ -122,9 +141,9 @@ public class UserInterface {
     public static void processGetByMileageRequest() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter minimum mileage: ");
-        int min = scanner.nextInt();
+      double min = scanner.nextDouble();
         System.out.print("Enter maximum mileage: ");
-        int max = scanner.nextInt();
+        double max = scanner.nextDouble();
 
         ArrayList<Vehicle> results = dealership.getVehiclesByMileage(min, max);
         displayVehicles(results);
@@ -143,124 +162,133 @@ public class UserInterface {
     // Show all vehicles in the dealership
     public static void processAllVehiclesRequest() {
         ArrayList<Vehicle> vehicles = dealership.getAllVehicle();
-        System.out.println(vehicles.get(0));
-        displayVehicles(vehicles);
-    }
-
-    // Add a new vehicle to the inventory
-    public static void processAddVehicleRequest() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Enter VIN: ");
-        int vin = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Enter year: ");
-        int year = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.print("Enter make: ");
-        String make = scanner.nextLine();
-
-        System.out.print("Enter model: ");
-        String model = scanner.nextLine();
-
-        System.out.print("Enter type: ");
-        String type = scanner.nextLine();
-
-        System.out.print("Enter color: ");
-        String color = scanner.nextLine();
-
-        System.out.print("Enter mileage: ");
-        int mileage = scanner.nextInt();
-
-        System.out.print("Enter price: ");
-        double price = scanner.nextDouble();
-
-        Vehicle newVehicle = new Vehicle(vin, year, make, model, type, color, mileage, price);
-        dealership.addVehicle(newVehicle);
-
-        UserInterface ui = new UserInterface();
-        ui.showLoadingSpinner(1000); // 1 second spinner
-
-        DealershipFileManager dfm = new DealershipFileManager();
-        dfm.saveDealership(dealership);
-
-        System.out.println("Vehicle added successfully.");
-        waitForEnter();
-    }
-
-    // Remove a vehicle by VIN
-    public static void processRemoveVehicleRequest() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter VIN of vehicle to remove: ");
-        int vin = scanner.nextInt();
-
-        Vehicle vehicleToRemove = null;
-
-        for (Vehicle currentVehicle : dealership.getAllVehicle()) {
-            if (currentVehicle.getVin() == vin) {
-                vehicleToRemove = currentVehicle;
-                break;
-            }
+        // Check if the list is empty
+        if (vehicles.isEmpty()) {
+            System.out.println("No vehicles available in the dealership.");
+        } else {
+            System.out.println(vehicles.get(0));
+            displayVehicles(vehicles);//
         }
+    }
 
-        if (vehicleToRemove != null) {
-            dealership.removeVehicle(vehicleToRemove);
+        // Add a new vehicle to the inventory
+        public static void processAddVehicleRequest () {
+            Scanner scanner = new Scanner(System.in);
+
+            System.out.print("Enter VIN: ");
+            int vin = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.print("Enter year: ");
+            int year = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.print("Enter make: ");
+            String make = scanner.nextLine();
+
+            System.out.print("Enter model: ");
+            String model = scanner.nextLine();
+
+            System.out.print("Enter type: ");
+            String type = scanner.nextLine();
+
+            System.out.print("Enter color: ");
+            String color = scanner.nextLine();
+
+            System.out.print("Enter mileage: ");
+           double mileage = scanner.nextDouble();
+
+            System.out.print("Enter price: ");
+            double price = scanner.nextDouble();
+
+            Vehicle newVehicle = new Vehicle(vin, year, make, model, type, color, mileage, price);
+            dealership.addVehicle(newVehicle);
 
             UserInterface ui = new UserInterface();
             ui.showLoadingSpinner(1000); // 1 second spinner
 
             DealershipFileManager dfm = new DealershipFileManager();
             dfm.saveDealership(dealership);
-            System.out.println("Vehicle removed successfully.");
+
+            System.out.println("Vehicle added successfully.");
             waitForEnter();
-        } else {
-            System.out.println("Vehicle with that VIN not found.");
         }
-    }
 
-    // Utility method to display a list of vehicles, or a message if empty
-    private static void displayVehicles(ArrayList<Vehicle> vehicleList) {
-        if (vehicleList.isEmpty()) {
-            System.out.println("No vehicles found.");
-        } else {
-            for (Vehicle currentVehicle : vehicleList) {
-                System.out.println(currentVehicle);
-            }
-        }
-        waitForEnter();
-    }
+        // Remove a vehicle by VIN
+        public static void processRemoveVehicleRequest () {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter VIN of vehicle to remove: ");
+            int vin = scanner.nextInt();
 
-    // ... your other methods (displayMenu, handleUserInput, etc.)
+            Vehicle vehicleToRemove = null;
 
-    // gives the user a visual spinner for loading. Useful and looks professional.
-    public void showLoadingSpinner(int durationMillis) {
-        char[] spinner = {'|', '/', '-', '\\'};
-        long startTime = System.currentTimeMillis();
+            // Loop through all vehicles to find the one matching the VIN
 
-        while (System.currentTimeMillis() - startTime < durationMillis) {
-            for (char ch : spinner) {
-                System.out.print("\rLoading " + ch);
-                try {
-                    Thread.sleep(250);
-                } catch (InterruptedException e) {
-                    System.out.println("\nLoading interrupted.");
-                    return;
+            for (Vehicle currentVehicle : dealership.getAllVehicle()) {
+                if (currentVehicle.getVin() == vin) {
+                    vehicleToRemove = currentVehicle;
+                    break;
                 }
             }
+
+            if (vehicleToRemove != null) {
+                dealership.removeVehicle(vehicleToRemove);
+
+                UserInterface ui = new UserInterface();
+                ui.showLoadingSpinner(1000); // 1 second spinner
+
+                DealershipFileManager dfm = new DealershipFileManager();
+                dfm.saveDealership(dealership);
+                System.out.println("Vehicle removed successfully.");
+                waitForEnter();
+            } else {
+                System.out.println("Vehicle with that VIN not found.");
+            }
         }
 
-        System.out.print("\rLoading done!         \n");
+
+        // Utility method to display a list of vehicles, or a message if empty
+        private static void displayVehicles (ArrayList < Vehicle > vehicleList) {
+            if (vehicleList.isEmpty()) {
+                System.out.println("No vehicles found.");
+            } else {
+                for (Vehicle currentVehicle : vehicleList) {
+                    System.out.println(currentVehicle);
+                }
+            }
+            waitForEnter();
+        }
+
+        // ... your other methods (displayMenu, handleUserInput, etc.)
+
+        // gives the user a visual spinner for loading. Useful and looks professional.
+        public void showLoadingSpinner ( int durationMillis){
+            char[] spinner = {'|', '/', '-', '\\'};
+            long startTime = System.currentTimeMillis();
+
+            while (System.currentTimeMillis() - startTime < durationMillis) {
+                for (char ch : spinner) {
+                    System.out.print("\rLoading " + ch);
+                    try {
+                        Thread.sleep(250);
+                    } catch (InterruptedException e) {
+                        System.out.println("\nLoading interrupted.");
+                        return;
+                    }
+                }
+            }
+
+            System.out.print("\rLoading done!         \n");
+        }
+
+        //Method waits until user presses Enter gives control to user.
+        public static void waitForEnter () {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("\nPress Enter to continue...");
+            scanner.nextLine();
+        }
     }
 
-    //Method waits until user presses Enter gives control to user.
-    public static void waitForEnter() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("\nPress Enter to continue...");
-        scanner.nextLine();
-    }
-}
 //similar method for control the display time and input time
 /*    public void showLoadingDots(int durationMillis) {
         int dotCount = 0;

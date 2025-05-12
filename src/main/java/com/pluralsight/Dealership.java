@@ -20,30 +20,7 @@ public class Dealership {
 
     }
 
-    //Cstom method for addVehicle(Vehicle v) & getAllVehicles() & // remove method => search method that return a list
-    public ArrayList<Vehicle> searchByPrice(double min, double max) {
-        return null; //will add real logic later
-    }
-    public void addVehicle(Vehicle vehicle){
-        inventory.add(vehicle);
-    }
-    //
-    public ArrayList<Vehicle> getAllVehicle(){
-        return inventory;
-
-    }
-
-    public void removeVehicle(Vehicle vehicle) {
-        //leave empty for now
-        ArrayList<Vehicle> matches = new ArrayList<>();
-        for (int i = 0; i < inventory.size(); i++) {//one by one it replacing not storing overwritten not storing one is for one no duplicate
-            Vehicle vehicles = inventory.get(i);
-            if (vehicles.getVin() == vehicle.getVin()) {// is it the same hand color when find the same color type
-               matches.remove(i); // stop after removing first match
-                break;
-            }
-        }
-    }
+    //Custom method  => search method that return a list based on our filter or search.
 
     public ArrayList<Vehicle> getVehiclesByPrice(double min , double max ){
         ArrayList<Vehicle> matches = new ArrayList<>();
@@ -89,7 +66,7 @@ public class Dealership {
         return matches;
     }
 
-    public ArrayList<Vehicle> getVehiclesByMileage( int min , int max){
+    public ArrayList<Vehicle> getVehiclesByMileage( double min , double max){
         ArrayList<Vehicle> matches = new ArrayList<>();
         for(int i =0 ; i < inventory.size() ; i++){
             Vehicle vehicle = inventory.get(i);
@@ -110,7 +87,26 @@ public class Dealership {
         }
         return matches;
     }
+    public void addVehicle(Vehicle vehicle){
+        inventory.add(vehicle);
+    }
+    //
+    public ArrayList<Vehicle> getAllVehicle(){
+        return inventory;
 
+    }
+
+    public void removeVehicle(Vehicle vehicle) {
+        //leave empty for now
+
+        for (int i = 0; i < inventory.size(); i++) {//one by one it's replacing not storing overwritten not storing one is for one no duplicate
+            Vehicle vehicles = inventory.get(i);
+            if (vehicles.getVin() == vehicle.getVin()) {// is it the same hand color when find the same color type
+                inventory.remove(i); // stop after removing first match
+                break;
+            }
+        }
+    }
 
 
     //Generate getter and setter
