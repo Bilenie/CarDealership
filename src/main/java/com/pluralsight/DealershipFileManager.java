@@ -64,7 +64,7 @@ public class DealershipFileManager {
                     // Standardizing the capitalization of 'make', 'type', and 'model' (e.g., "Ford" instead of "ford")
                     make = capitalizeFirstLetter(make); // Fix make capitalization
                     model = capitalizeFirstLetter(model); // Fix model capitalization
-                    type = capitalizeFirstLetter(type); // Fix type capitaliz
+                    type = capitalizeFirstLetter(type); // Fix type capitalization
 
                 Vehicle newVehicle = new Vehicle(vin, year, make, model, type, color, odometer, price);
                 dealership.addVehicle(newVehicle);

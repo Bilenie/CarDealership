@@ -22,15 +22,27 @@ public class Dealership {
 
     //Custom method  => search method that return a list based on our filter or search.
 
-    public ArrayList<Vehicle> getVehiclesByPrice(double min , double max ){
+    public ArrayList<Vehicle> getVehiclesByPrice(String min , String max ) {
         ArrayList<Vehicle> matches = new ArrayList<>();
-        for(int i =0 ; i < inventory.size() ; i++){
-            Vehicle vehicle = inventory.get(i);
-            if(vehicle.getPrice()>=min && vehicle.getPrice()<= max){
-                matches.add(vehicle);
+        while (true) {  // keep asking until valid inputs
+            if (min.isEmpty() || max.isEmpty()) {
+                System.out.println("Input cannot be empty. Please enter price again.");
+                return matches;
             }
+
+            //parse the string to double back so that it give use number
+
+            double minParse = Double.parseDouble(min);
+            double maxParse = Double.parseDouble(max);
+
+            for (int i = 0; i < inventory.size(); i++) {
+                Vehicle vehicle = inventory.get(i);
+                if (vehicle.getPrice() >= minParse && vehicle.getPrice() <= maxParse) {
+                    matches.add(vehicle);
+                }
+            }
+            return matches;
         }
-        return matches;
     }
 
     public ArrayList<Vehicle> getVehiclesByMakeModel(String make, String model){
@@ -134,4 +146,6 @@ public class Dealership {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+    //sell and lease a vehicle
+    // user select sell => info collected  => same for lease.
 }
