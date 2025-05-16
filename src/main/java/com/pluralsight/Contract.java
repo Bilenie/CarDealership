@@ -50,7 +50,7 @@ public abstract class Contract {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
-
+//Make the method abstract that force the child class to implement the method.
     public abstract double getTotalPrice();
     public abstract double getMonthlyPayment();
 
