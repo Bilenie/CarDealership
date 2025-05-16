@@ -95,9 +95,9 @@ public class UserInterface {
     public static void processGetByPriceRequest() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter minimum price: ");
-        double min = scanner.nextDouble();
+        String min = scanner.nextLine();
         System.out.print("Enter maximum price: ");
-        double max = scanner.nextDouble();
+        String max = scanner.nextLine();
 
         ArrayList<Vehicle> results = dealership.getVehiclesByPrice(min, max);
         displayVehicles(results);
