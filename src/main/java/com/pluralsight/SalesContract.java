@@ -5,108 +5,59 @@ import java.util.Scanner;
 
 public class SalesContract extends Contract {
     //properties that is specific to this class.
-    private double salesTaxAmount;
-    private double recordingFee;
-    private double processingFee;
-    private boolean financing;
+    // Constants
+    private static final double SALES_TAX_RATE = 0.05;
+    private static final double RECORDING_FEE = 100.0;
+    private static final double PROCESSING_FEE_UNDER_10000 = 295.0;
+    private static final double PROCESSING_FEE_OVER_10000 = 495.0;
+    private boolean finance;
 
     //Generate constructor
-
-
-    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicle,
-                         double salesTaxAmount, double recordingFee, double processingFee, boolean financing) {
+    public SalesContract(String date, String customerName, String customerEmail, Vehicle vehicle, boolean finance) {
         super(date, customerName, customerEmail, vehicle);
-        this.salesTaxAmount = 0.05;
-        this.recordingFee = 100;
-        this.processingFee = processingFee;
-        this.financing = financing;
+        this.finance = finance;
 
     }
 
     //Custom Method
-    public double processingCost() {
-        //Processing fee for vehicles under $10,000 =$295  and its $495 for all other
-        if (getVehicle().getPrice() == 10000) {
-            this.processingFee = 295;
-        } else {
-            this.processingFee = 495;
-        }
-        return this.processingFee;
+
+    public boolean isFinance() {
+        return finance;
     }
 
     @Override
     public double getMonthlyPayment() {
-        Scanner myScanner = new Scanner(System.in);
+        if (!finance) return 0.0;
 
-        while (true) {
-            System.out.println(" Do you want to finance ?\n y (Yes) / n (No)");
-            String choice = myScanner.nextLine().toUpperCase().trim();
+        double totalPrice = getTotalPrice();
+        double rate;
+        int months;
 
-            if (choice.equalsIgnoreCase("Y") && isFinancing()) {
-
-                double price = getVehicle().getPrice();
-                double interestRate;
-                int months;
-
-                if (price >= 10000) {
-                    interestRate = 0.045;
-                    months = 48;
-
-                } else {
-                    interestRate = 0.0525;
-                    months = 24;
-                }
-                double loanAmount = getTotalPrice(); // Includes tax, fees, etc.
-                double monthlyInterest = interestRate / 12;
-                double monthlyPayment = (loanAmount * monthlyInterest) /
-                        (1 - Math.pow(1 + monthlyInterest, -months));
-
-                return monthlyPayment;
-            } else if (choice.equals("N")) {
-                return 0.0;
-            } else {
-                System.out.println("Invalid input. Please enter 'y' or 'n'.");
-            }
+        if (totalPrice >= 10000) {
+            rate = 0.0425;
+            months = 48;
+        } else {
+            rate = 0.0525;
+            months = 24;
         }
+
+        double monthlyPayment = (totalPrice * (1 + rate)) / months;
+        return Math.round(monthlyPayment * 100.0) / 100.0; // Rounded to 2 decimal places
     }
 
     @Override
     public double getTotalPrice() {
-        return getVehicle().getPrice() + salesTaxAmount + recordingFee + processingFee;
-
+        double basePrice = getVehicle().getPrice();
+        double tax = basePrice * SALES_TAX_RATE;
+        double processingFee = basePrice < 10000 ? PROCESSING_FEE_UNDER_10000 : PROCESSING_FEE_OVER_10000;
+        return basePrice + tax + RECORDING_FEE + processingFee;
     }
 
     //Generate getter and setter for all except total price and monthly payment.
 
-    public double getSalesTaxAmount() {
-        return salesTaxAmount;
+    public void setFinance(boolean finance) {
+        this.finance = finance;
     }
 
-    public void setSalesTaxAmount(double salesTaxAmount) {
-        this.salesTaxAmount = salesTaxAmount;
-    }
-
-    public double getRecordingFee() {
-        return recordingFee;
-    }
-
-    public void setRecordingFee(double recordingFee) {
-        this.recordingFee = recordingFee;
-    }
-
-    public double getProcessingFee() {
-        return processingFee;
-    }
-
-    public void setProcessingFee(double processingFee) {
-        this.processingFee = processingFee;
-    }
-
-    public boolean isFinancing() {
-        return financing;
-    }
-
-    public void setFinancing(boolean financing) {
-        this.financing = financing;
-    }
 }
+

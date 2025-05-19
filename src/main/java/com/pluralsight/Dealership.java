@@ -99,6 +99,26 @@ public class Dealership {
         }
         return matches;
     }
+    public ArrayList<Vehicle> getVehiclesByVin(String vin) {
+        ArrayList<Vehicle> matches = new ArrayList<>();
+
+        if (vin.isEmpty()) {
+            System.out.println("VIN input cannot be empty.");
+            return matches;
+        }
+
+        int vinParsed = Integer.parseInt(vin);
+
+        for (int i = 0; i < inventory.size(); i++) {
+            Vehicle vehicle = inventory.get(i);
+            if (vehicle.getVin() == vinParsed) {
+                matches.add(vehicle);
+            }
+        }
+
+        return matches;
+    }
+
     public void addVehicle(Vehicle vehicle){
         inventory.add(vehicle);
     }
