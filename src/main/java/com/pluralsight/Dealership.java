@@ -7,7 +7,7 @@ public class Dealership {
     private String name;
     private String address;
     private String phone;
-    private ArrayList<Vehicle> inventory;
+    private ArrayList<Vehicle> inventory;//not holding but way of accessing it with condition.
 
     //Generate Constructor
 
