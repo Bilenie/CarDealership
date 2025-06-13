@@ -1,6 +1,4 @@
-package com.pluralsight;
-
-import java.util.Scanner;
+package com.pluralsight.models;
 
 
 public class SalesContract extends Contract {

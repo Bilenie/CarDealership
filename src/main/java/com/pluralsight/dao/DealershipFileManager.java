@@ -1,4 +1,7 @@
-package com.pluralsight;
+package com.pluralsight.dao;
+
+import com.pluralsight.models.Dealership;
+import com.pluralsight.models.Vehicle;
 
 import java.io.*;
 import java.util.ArrayList;

@@ -1,4 +1,9 @@
-package com.pluralsight;
+package com.pluralsight.dao;
+
+import com.pluralsight.models.Contract;
+import com.pluralsight.models.LeaseContract;
+import com.pluralsight.models.SalesContract;
+import com.pluralsight.models.Vehicle;
 
 import java.io.FileWriter;
 import java.io.IOException;
