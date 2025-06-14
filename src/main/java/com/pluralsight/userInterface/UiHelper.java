@@ -32,6 +32,12 @@ public class UiHelper {
         scanner.nextLine();
     }
 
+    //Method to assist with making the first letter of our string to capital to avoid error
+    public static String capitalizeFirstLetter(String input) {
+        if (input == null || input.isEmpty()) return input;
+        return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+    }
+
     public static void showLoadingDots(int durationMillis) {
         int dotCount = 0;
         long startTime = System.currentTimeMillis();

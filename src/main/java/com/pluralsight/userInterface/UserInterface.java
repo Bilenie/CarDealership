@@ -1,7 +1,7 @@
 package com.pluralsight.userInterface;
 
-import com.pluralsight.dao.ContractFileManager;
-import com.pluralsight.dao.DealershipFileManager;
+import com.pluralsight.dao.ContractDao;
+import com.pluralsight.dao.DealershipDeo;
 import com.pluralsight.models.*;
 
 import java.util.ArrayList;
@@ -135,7 +135,7 @@ public class UserInterface {
     private static void init() {
         UserInterface ui = new UserInterface();
         UiHelper.showLoadingSpinner(1000); // 1 second spinner
-        DealershipFileManager dfm = new DealershipFileManager();
+        DealershipDeo dfm = new DealershipDeo();
         dealership = dfm.getDealership();
     }
 
@@ -255,7 +255,7 @@ public class UserInterface {
         UserInterface ui = new UserInterface();
         showLoadingSpinner(1000); // 1 second spinner
 
-        DealershipFileManager dfm = new DealershipFileManager();
+        DealershipDeo dfm = new DealershipDeo();
         dfm.saveDealership(dealership);
 
         System.out.println("Vehicle added successfully.");
@@ -285,7 +285,7 @@ public class UserInterface {
             UserInterface ui = new UserInterface();
             showLoadingSpinner(1000); // 1 second spinner
 
-            DealershipFileManager dfm = new DealershipFileManager();
+            DealershipDeo dfm = new DealershipDeo();
             dfm.saveDealership(dealership);
             System.out.println("Vehicle removed successfully.");
             waitForEnter();
@@ -347,11 +347,11 @@ public class UserInterface {
             return;
         }
 
-        ContractFileManager contractManager = new ContractFileManager();
+        ContractDao contractManager = new ContractDao();
         contractManager.saveContract(contract);
 
         dealership.removeVehicle(selectedVehicle);
-        DealershipFileManager dealershipManager = new DealershipFileManager();
+        DealershipDeo dealershipManager = new DealershipDeo();
         dealershipManager.saveDealership(dealership);
 
         System.out.println("\nContract saved and vehicle removed from inventory.");

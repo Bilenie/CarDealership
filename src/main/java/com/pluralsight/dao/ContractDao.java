@@ -8,7 +8,7 @@ import com.pluralsight.models.Vehicle;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ContractFileManager {
+public class ContractDao {
     private static final String FILE_NAME = "contracts.csv";
 
     // Save contract to file
@@ -61,5 +61,15 @@ public class ContractFileManager {
         } catch (IOException e) {
             System.out.println("Error saving contract: " + e.getMessage());
         }
+
+
+
+//        public static void getContractDetails() {
+//            return "Lease Contract\n" +
+//                    "Date: " + date + "\n" +
+//                    "Customer: " + customerName + " (" + customerEmail + ")\n" +
+//                    "Vehicle: " + vehicle.getYear() + " " + vehicle.getMake() + " " + vehicle.getModel() + "\n" +
+//                    "Lease Price: $" + vehicle.getPrice();  // You can modify this if lease has monthly price, etc.
+//        }
     }
 }

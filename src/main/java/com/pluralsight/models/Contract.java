@@ -17,13 +17,6 @@ public abstract class Contract {
         this.vehicle = vehicle;
     }
 
-       public String getContractDetails() {
-        return "Lease Contract\n" +
-                "Date: " + date + "\n" +
-                "Customer: " + customerName + " (" + customerEmail + ")\n" +
-                "Vehicle: " + vehicle.getYear() + " " + vehicle.getMake() + " " + vehicle.getModel() + "\n" +
-                "Lease Price: $" + vehicle.getPrice();  // You can modify this if lease has monthly price, etc.
-    }
 
 //Generate getter and setter for all except the total price and monthly payment
 
