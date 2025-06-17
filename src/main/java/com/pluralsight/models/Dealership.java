@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public class Dealership {
     //Set attribute for the dealership
+
+    private int dealershipId;
     private String name;
     private String address;
     private String phone;
@@ -11,19 +13,40 @@ public class Dealership {
 
     //Generate Constructor
 
+    // Default constructor
+    public Dealership() {
+        this.inventory = new ArrayList<>();
+    }
 
-    public Dealership(String name, String address, String phone) {
+    public Dealership(int dealershipId,String name, String address, String phone) {
+
+        this.dealershipId = dealershipId;
         this.name = name;
         this.address = address;
         this.phone = phone;
        this.inventory = new ArrayList<>();
 
     }
+    //Custom method
+    public void addVehicle(Vehicle vehicle) {
+        if (!inventory.contains(vehicle)) {
+            inventory.add(vehicle);
+        }
+    }
 
-
+    @Override
+    public String toString() {
+        return String.format("%s | %s | %s", name, address, phone);
+    }
 
     //Generate getter and setter
 
+    public int getDealershipId() {
+        return dealershipId;
+    }
+    public void setDealershipId(int dealershipId) {
+        this.dealershipId = dealershipId;
+    }
     public String getName() {
         return name;
     }
@@ -47,6 +70,12 @@ public class Dealership {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    //sell and lease a vehicle
-    // user select sell => info collected  => same for lease.
+
+    public ArrayList<Vehicle> getInventory() {
+        return inventory;
+    }
+    public void setInventory(ArrayList<Vehicle> inventory) {
+        this.inventory = inventory;
+    }
+
 }

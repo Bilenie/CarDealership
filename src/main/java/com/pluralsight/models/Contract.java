@@ -6,8 +6,6 @@ public abstract class Contract {
         private String customerName;
         private String customerEmail;
         private Vehicle vehicle;  //
-        protected double totalPrice;
-        protected double monthlyPayment;
 
     //Generate constructor for all except the total price and monthly payment
     public Contract(String date, String customerName, String customerEmail, Vehicle vehicle) {
@@ -16,7 +14,6 @@ public abstract class Contract {
         this.customerEmail = customerEmail;
         this.vehicle = vehicle;
     }
-
 
 //Generate getter and setter for all except the total price and monthly payment
 

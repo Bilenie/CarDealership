@@ -34,6 +34,8 @@ public class Program {
         VehicleDao.dataSource = dataSource;
 
 
+
+
         // build the actual dealership
         // Dealership myShop = new Dealership("Bilenie Cars", "123 Garland Texas", "123-456-7890");
 

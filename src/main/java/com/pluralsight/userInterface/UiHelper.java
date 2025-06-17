@@ -1,5 +1,9 @@
 package com.pluralsight.userInterface;
 
+import com.pluralsight.models.Vehicle;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UiHelper {
@@ -66,6 +70,19 @@ public class UiHelper {
             System.out.println("Pause interrupted.");
         }
     }
+
+    // Utility method to display a list of vehicles, or a message if empty
+    public static void displayVehicles(List<Vehicle> vehicleList) {
+        if (vehicleList.isEmpty()) {
+            System.out.println("No vehicles found.");
+        } else {
+            for (Vehicle currentVehicle : vehicleList) {
+                System.out.println(currentVehicle);
+            }
+        }
+        waitForEnter();
+    }
+
 
 
 }

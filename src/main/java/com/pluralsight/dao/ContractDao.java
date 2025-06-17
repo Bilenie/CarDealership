@@ -1,75 +1,65 @@
 package com.pluralsight.dao;
 
-import com.pluralsight.models.Contract;
 import com.pluralsight.models.LeaseContract;
 import com.pluralsight.models.SalesContract;
-import com.pluralsight.models.Vehicle;
+import org.apache.commons.dbcp2.BasicDataSource;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 
 public class ContractDao {
-    private static final String FILE_NAME = "contracts.csv";
+    private BasicDataSource dataSource;
 
-    // Save contract to file
-    public void saveContract(Contract contract) {
-        try (FileWriter writer = new FileWriter(FILE_NAME, true)) {
-            StringBuilder line = new StringBuilder();
+    public ContractDao(BasicDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
-            Vehicle v = contract.getVehicle();
-            String type = contract instanceof SalesContract ? "SALE" : "LEASE";
+    // 💰 Save a sales contract to the database
+    public void saveSalesContract(SalesContract contract) {
+        String sql = "INSERT INTO sales_contracts (contract_date, " +
+                "customer_name, customer_email, vin, sale_price," +
+                " sales_tax_amount, processing_fee, total_price, finance, MonthlyPayment)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,?)";
 
-            line.append(type).append("|")
-                    .append(contract.getDate()).append("|")
-                    .append(contract.getCustomerName()).append("|")
-                    .append(contract.getCustomerEmail()).append("|")
-                    .append(v.getVin()).append("|")
-                    .append(v.getYear()).append("|")
-                    .append(v.getMake()).append("|")
-                    .append(v.getModel()).append("|")
-                    .append(v.getType()).append("|")
-                    .append(v.getColor()).append("|")
-                    .append(v.getOdometer()).append("|")
-                    .append(v.getPrice()).append("|");
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, contract.getDate());
+            stmt.setString(2, contract.getCustomerName());
+            stmt.setString(3, contract.getCustomerEmail());
+            stmt.setInt(4, contract.getVehicle().getVin());
+            stmt.setDouble(5, contract.getVehicle().getPrice());
+            stmt.setDouble(6, contract.getSalesTaxRate());
+            stmt.setDouble(7, contract.getRecordingFee());
+            stmt.setDouble(8, contract.getTotalPrice());
+            stmt.setBoolean(9, contract.isFinance());
+            stmt.setDouble(10,contract.getMonthlyPayment());
 
-            if (contract instanceof SalesContract sale) {
-                double tax = v.getPrice() * 0.05;
-                double recording = 100.0;
-                double processing = v.getPrice() < 10000 ? 295.0 : 495.0;
-
-                line.append(tax).append("|")
-                        .append(recording).append("|")
-                        .append(processing).append("|")
-                        .append(sale.getTotalPrice()).append("|")
-                        .append(sale.isFinance() ? "YES" : "NO").append("|")
-                        .append(sale.getMonthlyPayment());
-
-            } else if (contract instanceof LeaseContract lease) {
-                double price = v.getPrice();
-                double expectedEnd = price * 0.5;
-                double leaseFee = price * 0.07;
-
-                line.append(expectedEnd).append("|")
-                        .append(leaseFee).append("|")
-                        .append(lease.getTotalPrice()).append("|")
-                        .append(lease.getMonthlyPayment());
-            }
-
-            line.append("\n");
-            writer.write(line.toString());
-
-        } catch (IOException e) {
-            System.out.println("Error saving contract: " + e.getMessage());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
 
+    // Save a lease contract
+    public void saveLeaseContract(LeaseContract contract) {
+        String sql = "INSERT INTO lease_contracts (contract_date, customer_name, customer_email, vin, ending_value, lease_fee, total_price,MonthlyPayment) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, contract.getDate());
+            stmt.setString(2, contract.getCustomerName());
+            stmt.setString(3, contract.getCustomerEmail());
+            stmt.setInt(4, contract.getVehicle().getVin());
+            stmt.setDouble(5, contract.getEndingValue());
+            stmt.setDouble(6, contract.getLeaseFee());
+            stmt.setDouble(7, contract.getTotalPrice());
+            stmt.setDouble(8, contract.getMonthlyPayment());
+            stmt.executeUpdate();
 
-//        public static void getContractDetails() {
-//            return "Lease Contract\n" +
-//                    "Date: " + date + "\n" +
-//                    "Customer: " + customerName + " (" + customerEmail + ")\n" +
-//                    "Vehicle: " + vehicle.getYear() + " " + vehicle.getMake() + " " + vehicle.getModel() + "\n" +
-//                    "Lease Price: $" + vehicle.getPrice();  // You can modify this if lease has monthly price, etc.
-//        }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
