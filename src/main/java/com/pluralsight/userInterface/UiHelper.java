@@ -1,5 +1,6 @@
 package com.pluralsight.userInterface;
 
+import com.pluralsight.models.Dealership;
 import com.pluralsight.models.Vehicle;
 
 import java.util.ArrayList;
@@ -78,6 +79,16 @@ public class UiHelper {
         } else {
             for (Vehicle currentVehicle : vehicleList) {
                 System.out.println(currentVehicle);
+            }
+        }
+        waitForEnter();
+    }
+    public static void displayDealership(List<Dealership> dealershipList) {
+        if (dealershipList.isEmpty()) {
+            System.out.println("No dealership found.");
+        } else {
+            for (Dealership currentDealership : dealershipList) {
+                System.out.println(currentDealership);
             }
         }
         waitForEnter();

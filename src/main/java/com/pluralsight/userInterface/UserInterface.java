@@ -16,9 +16,9 @@ public class UserInterface {
     //object..
     private static VehicleDao vehicleDao;
     private static ContractDao contractDao;
-    private static ContractDao dealershipDao;
+    private static DealershipDeo dealershipDao;
 
-
+    public static BasicDataSource dataSource = new BasicDataSource();
     // Private constructor to prevent instantiation
     public UserInterface() {
     }
@@ -26,7 +26,7 @@ public class UserInterface {
     // This method launches the menu and keeps looping until the user exits
     public static void display() {
 
-        BasicDataSource dataSource = new BasicDataSource();
+
 
         String url = "jdbc:mysql://localhost:3306/cardealershipdb";
         String username = System.getProperty("dbUsername");
@@ -95,6 +95,7 @@ public class UserInterface {
         System.out.println("7 - List all vehicles");
         System.out.println("8 - Add a vehicle");
         System.out.println("9 - Remove a vehicle");
+        System.out.println("10 - Display Dealerships");
         System.out.println("99 - Quit");
         System.out.print("Enter option: ");
 
@@ -137,6 +138,9 @@ public class UserInterface {
                 break;
             case 9:
                 processRemoveVehicleRequest();
+                break;
+            case 10:
+                processAllDealershipRequest();
                 break;
             case 99:
                 System.out.println("Goodbye!");
@@ -230,6 +234,19 @@ public class UserInterface {
             displayVehicles(vehicles);//
         }
     }
+    // Show all vehicles in the dealership
+    public static void processAllDealershipRequest() {
+
+        List<Dealership> dealerships = dealershipDao.getAllDealerships(dataSource);
+        // Check if the list is empty
+        if (dealerships.isEmpty()) {
+            System.out.println("No Dealership available in the Database.");
+        } else {
+            displayDealership(dealerships);//
+        }
+    }
+
+
 
     // Add a new vehicle to the inventory
     public static void processAddVehicleRequest() {

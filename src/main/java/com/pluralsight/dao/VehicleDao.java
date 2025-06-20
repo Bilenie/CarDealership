@@ -35,6 +35,8 @@ public class VehicleDao {
         vehicle.setPrice(rs.getDouble("price"));
         return vehicle;
     }
+
+
     /**
      * Get all vehicles for a specific dealership
      */

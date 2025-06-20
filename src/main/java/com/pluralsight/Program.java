@@ -26,12 +26,12 @@ public class Program {
         String password = args[1];
 
 
-        dataSource.setUrl("jdbc:mysql://localhost:3306/ CarDealershipdb");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/cardealershipdb");
         dataSource.setUsername(username);
         dataSource.setPassword(password);
 
         // Pass dataSource to the DAO class
-        VehicleDao.dataSource = dataSource;
+       // VehicleDao.dataSource = dataSource;
 
 
 
