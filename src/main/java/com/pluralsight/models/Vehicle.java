@@ -35,7 +35,7 @@ public class Vehicle {
     //Custom method  toString method show us error on mistake, make the code safe/clean, easy to read/understand when other want what my object is.
     @Override
     public String toString() {
-        return String.format("VIN: %s | %d %s %s | Type: %s | Color: %s | Miles: %,d | Price: $%.2f%s",
+        return String.format("VIN: %s | %d %s %s | Type: %s | Color: %s | Miles: %.2f | Price: $%.2f%s",
                 vin, year, make, model, type, color, odometer, price,
                 sold ? " [SOLD]" : "");
     }

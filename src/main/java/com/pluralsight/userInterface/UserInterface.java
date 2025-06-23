@@ -74,7 +74,7 @@ public class UserInterface {
         }
     }
 
-   public static void printMainMenu() {
+    public static void printMainMenu() {
         System.out.println("\n=== Welcome to Bilenie Auto !!! ===");
         System.out.println("\n==== DEALERSHIP MENU ====");
         System.out.println("1. Search vehicles");
@@ -83,7 +83,7 @@ public class UserInterface {
     }
 
     // Vehicle search logic
-   public static void searchVehicles() {
+    public static void searchVehicles() {
         // Show menu options
         System.out.println("\n=== Search Vehicle Filters ===");
         System.out.println("1 - Find vehicles by price");
@@ -364,8 +364,8 @@ public class UserInterface {
             String answer = scanner.nextLine().trim().toLowerCase();
             boolean needsFinance = answer.equals("yes");
 
-           SalesContract salesContract = new SalesContract(date, name, email, selectedVehicle, needsFinance);
-           contractDao.saveSalesContract(salesContract);
+            SalesContract salesContract = new SalesContract(date, name, email, selectedVehicle, needsFinance);
+            contractDao.saveSalesContract(salesContract);
 
         } else if (contractType.equals("lease")) {
             LeaseContract leaseContract = new LeaseContract(date, name, email, selectedVehicle);
@@ -382,4 +382,3 @@ public class UserInterface {
     }
 
 }
-

@@ -32,7 +32,7 @@ public class Program {
 // System.setProperty("dbPassword", args[1]);
 // SpringApplication.run(DealershipApiApplication.class, args);}
         // Pass dataSource to the DAO class
-       // VehicleDao.dataSource = dataSource;
+        // VehicleDao.dataSource = dataSource;
 
 
 

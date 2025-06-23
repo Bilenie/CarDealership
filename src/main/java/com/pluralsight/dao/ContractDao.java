@@ -3,12 +3,13 @@ package com.pluralsight.dao;
 import com.pluralsight.models.LeaseContract;
 import com.pluralsight.models.SalesContract;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
+@Component
 public class ContractDao {
     private BasicDataSource dataSource;
 
