@@ -1,8 +1,10 @@
 package com.pluralsight.userInterface;
 
-import com.pluralsight.dao.ContractFileManager;
-import com.pluralsight.dao.DealershipFileManager;
+import com.pluralsight.dao.ContractDao;
+import com.pluralsight.dao.DealershipDeo;
+import com.pluralsight.dao.VehicleDao;
 import com.pluralsight.models.*;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,18 +14,34 @@ import static com.pluralsight.userInterface.UiHelper.*;
 public class UserInterface {
     //set it static
     //object..
-    private static Dealership dealership;
+    private static VehicleDao vehicleDao;
+    private static ContractDao contractDao;
+    private static DealershipDeo dealershipDao;
 
+    public static BasicDataSource dataSource = new BasicDataSource();
     // Private constructor to prevent instantiation
     public UserInterface() {
     }
 
     // This method launches the menu and keeps looping until the user exits
     public static void display() {
-        init();  // Load the dealership from file
+
+
+
+        String url = "jdbc:mysql://localhost:3306/cardealershipdb";
+        String username = System.getProperty("dbUsername");
+        String password = System.getProperty("dbPassword");
+
+        dataSource.setUrl(url);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+
+        vehicleDao = new VehicleDao(dataSource);
+        contractDao = new ContractDao(dataSource);
+        dealershipDao = new DealershipDeo(dataSource);//forgot to create instance
+
         Scanner scanner = new Scanner(System.in);
         boolean menuRunning = true;
-
 
         while (menuRunning) {
             printMainMenu();
@@ -77,6 +95,7 @@ public class UserInterface {
         System.out.println("7 - List all vehicles");
         System.out.println("8 - Add a vehicle");
         System.out.println("9 - Remove a vehicle");
+        System.out.println("10 - Display Dealerships");
         System.out.println("99 - Quit");
         System.out.print("Enter option: ");
 
@@ -120,6 +139,9 @@ public class UserInterface {
             case 9:
                 processRemoveVehicleRequest();
                 break;
+            case 10:
+                processAllDealershipRequest();
+                break;
             case 99:
                 System.out.println("Goodbye!");
                 System.exit(0);
@@ -130,15 +152,6 @@ public class UserInterface {
 
     }
 
-
-    // Loads the dealership inventory from the file using DealershipFileManager
-    private static void init() {
-        UserInterface ui = new UserInterface();
-        UiHelper.showLoadingSpinner(1000); // 1 second spinner
-        DealershipFileManager dfm = new DealershipFileManager();
-        dealership = dfm.getDealership();
-    }
-
     // Search for vehicles within a price range
     public static void processGetByPriceRequest() {
         Scanner scanner = new Scanner(System.in);
@@ -147,7 +160,11 @@ public class UserInterface {
         System.out.print("Enter maximum price: ");
         String max = scanner.nextLine();
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByPrice(min, max);
+        double minPrice = Double.parseDouble(min);
+        double maxPrice = Double.parseDouble(max);
+
+
+        ArrayList<Vehicle> results = vehicleDao.getVehicleByPrice(minPrice, maxPrice);
         displayVehicles(results);
     }
 
@@ -159,7 +176,7 @@ public class UserInterface {
         System.out.print("Enter model: ");
         String model = scanner.nextLine();
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByMakeModel(make, model);
+        List<Vehicle> results = vehicleDao.getVehicleByMakeModel(make, model);
         displayVehicles(results);
     }
 
@@ -171,7 +188,7 @@ public class UserInterface {
         System.out.print("Enter maximum year: ");
         int max = scanner.nextInt();
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByYear(min, max);
+        List<Vehicle> results = vehicleDao.getVehicleByYear(min, max);
         displayVehicles(results);
     }
 
@@ -181,7 +198,7 @@ public class UserInterface {
         System.out.print("Enter color: ");
         String color = scanner.nextLine();
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByColor(color);
+        ArrayList<Vehicle> results = vehicleDao.getVehicleByColor(color);
         displayVehicles(results);
     }
 
@@ -193,7 +210,7 @@ public class UserInterface {
         System.out.print("Enter maximum mileage: ");
         double max = scanner.nextDouble();
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByMileage(min, max);
+        List<Vehicle> results = vehicleDao.getVehicleByMileage(min, max);
         displayVehicles(results);
     }
 
@@ -203,21 +220,33 @@ public class UserInterface {
         System.out.print("Enter vehicle type: ");
         String type = scanner.nextLine();
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByType(type);
+        List<Vehicle> results = vehicleDao.getVehicleByType(type);
         displayVehicles(results);
     }
 
     // Show all vehicles in the dealership
     public static void processAllVehiclesRequest() {
-        ArrayList<Vehicle> vehicles = dealership.getAllVehicle();
+        List<Vehicle> vehicles = vehicleDao.getAllVehicles();
         // Check if the list is empty
         if (vehicles.isEmpty()) {
             System.out.println("No vehicles available in the dealership.");
         } else {
-            System.out.println(vehicles.get(0));
             displayVehicles(vehicles);//
         }
     }
+    // Show all vehicles in the dealership
+    public static void processAllDealershipRequest() {
+
+        List<Dealership> dealerships = dealershipDao.getAllDealerships(dataSource);
+        // Check if the list is empty
+        if (dealerships.isEmpty()) {
+            System.out.println("No Dealership available in the Database.");
+        } else {
+            displayDealership(dealerships);//
+        }
+    }
+
+
 
     // Add a new vehicle to the inventory
     public static void processAddVehicleRequest() {
@@ -250,13 +279,9 @@ public class UserInterface {
         double price = scanner.nextDouble();
 
         Vehicle newVehicle = new Vehicle(vin, year, make, model, type, color, mileage, price);
-        dealership.addVehicle(newVehicle);
+        vehicleDao.addVehicle(newVehicle);
 
-        UserInterface ui = new UserInterface();
         showLoadingSpinner(1000); // 1 second spinner
-
-        DealershipFileManager dfm = new DealershipFileManager();
-        dfm.saveDealership(dealership);
 
         System.out.println("Vehicle added successfully.");
         waitForEnter();
@@ -268,11 +293,11 @@ public class UserInterface {
         System.out.print("Enter VIN of vehicle to remove: ");
         int vin = scanner.nextInt();
 
-        Vehicle vehicleToRemove = null;
+        Vehicle vehicleToRemove = null;//empty box
 
         // Loop through all vehicles to find the one matching the VIN
 
-        for (Vehicle currentVehicle : dealership.getAllVehicle()) {
+        for (Vehicle currentVehicle : vehicleDao.getAllVehicles()) {
             if (currentVehicle.getVin() == vin) {
                 vehicleToRemove = currentVehicle;
                 break;
@@ -280,13 +305,10 @@ public class UserInterface {
         }
 
         if (vehicleToRemove != null) {
-            dealership.removeVehicle(vehicleToRemove);
+            vehicleDao.removeByVin(vehicleToRemove);
 
-            UserInterface ui = new UserInterface();
             showLoadingSpinner(1000); // 1 second spinner
 
-            DealershipFileManager dfm = new DealershipFileManager();
-            dfm.saveDealership(dealership);
             System.out.println("Vehicle removed successfully.");
             waitForEnter();
         } else {
@@ -305,7 +327,7 @@ public class UserInterface {
         System.out.print("Customer email: ");
         String email = scanner.nextLine();
 
-        List<Vehicle> inventory = dealership.getAllVehicle();
+        List<Vehicle> inventory = vehicleDao.getAllVehicles();
         if (inventory.isEmpty()) {
             System.out.println("No vehicles available to sell.");
             return;
@@ -315,14 +337,16 @@ public class UserInterface {
         displayVehicles(new ArrayList<>(inventory));
 
         System.out.print("\nEnter VIN of vehicle to sell or lease: ");
-        String vin = scanner.nextLine().trim();
+        int vin = scanner.nextInt();
 
-        if (vin.isEmpty()) {
+        scanner.nextLine();
+
+        if (vin < 0) {
             System.out.println("VIN input cannot be empty.");
             return;
         }
 
-        ArrayList<Vehicle> results = dealership.getVehiclesByVin(vin);
+        List<Vehicle> results = vehicleDao.getVehiclesByVin(vin);//create a method getting a vehicle by vin
         if (results == null || results.isEmpty()) {
             System.out.println("Vehicle not found.");
             return;
@@ -339,39 +363,23 @@ public class UserInterface {
             System.out.print("Does customer need financing? (yes/no): ");
             String answer = scanner.nextLine().trim().toLowerCase();
             boolean needsFinance = answer.equals("yes");
-            contract = new SalesContract(date, name, email, selectedVehicle, needsFinance);
+
+           SalesContract salesContract = new SalesContract(date, name, email, selectedVehicle, needsFinance);
+           contractDao.saveSalesContract(salesContract);
+
         } else if (contractType.equals("lease")) {
-            contract = new LeaseContract(date, name, email, selectedVehicle);
+            LeaseContract leaseContract = new LeaseContract(date, name, email, selectedVehicle);
+            contractDao.saveLeaseContract(leaseContract);
+
         } else {
             System.out.println("Invalid contract type.");
             return;
         }
 
-        ContractFileManager contractManager = new ContractFileManager();
-        contractManager.saveContract(contract);
-
-        dealership.removeVehicle(selectedVehicle);
-        DealershipFileManager dealershipManager = new DealershipFileManager();
-        dealershipManager.saveDealership(dealership);
-
         System.out.println("\nContract saved and vehicle removed from inventory.");
         System.out.println("Contract Details:");
-        System.out.println(contract.getContractDetails());
+
     }
-
-
-    // Utility method to display a list of vehicles, or a message if empty
-    private static void displayVehicles(ArrayList<Vehicle> vehicleList) {
-        if (vehicleList.isEmpty()) {
-            System.out.println("No vehicles found.");
-        } else {
-            for (Vehicle currentVehicle : vehicleList) {
-                System.out.println(currentVehicle);
-            }
-        }
-        waitForEnter();
-    }
-
 
 }
 

@@ -3,7 +3,8 @@ package com.pluralsight.models;
 public class Vehicle {
 
     //Set attribute/properties for the car
-//skull => that represent what it need to become.
+   //skull => that represent what it needs to become.
+
     private int vin;
     private int year;
     private String make;
@@ -12,8 +13,13 @@ public class Vehicle {
     private String color;
     private double odometer;
     private double price;
+    private boolean sold;
 
-//Generate a constructor
+
+    //Generate a constructor
+
+    public Vehicle() {
+    }
 
     public Vehicle(int vin, int year, String make, String model, String type, String color, double odometer, double price) {
         this.vin = vin;
@@ -24,23 +30,17 @@ public class Vehicle {
         this.color = color;
         this.odometer = odometer;
         this.price = price;
+        this.sold = false;
     }
     //Custom method  toString method show us error on mistake, make the code safe/clean, easy to read/understand when other want what my object is.
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "vin : " + vin +
-                ", year : " + year +
-                ", make : " + make + '\'' +
-                ", model : " + model + '\'' +
-                ", type : " + type + '\'' +
-                ", color : " + color + '\'' +
-                ", odometer : " + odometer +
-                ", price : " + price +
-                '}';
+        return String.format("VIN: %s | %d %s %s | Type: %s | Color: %s | Miles: %,d | Price: $%.2f%s",
+                vin, year, make, model, type, color, odometer, price,
+                sold ? " [SOLD]" : "");
     }
 
-//Generate getter and setter
+    //Generate getter and setter
 
     public int getVin() {
         return vin;
@@ -105,5 +105,13 @@ public class Vehicle {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public boolean isSold() {
+        return sold;
+    }
+    public void setSold(boolean sold) {
+        this.sold = sold;
+    }
+
 
 }
