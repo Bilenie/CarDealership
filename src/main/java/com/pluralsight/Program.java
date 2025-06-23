@@ -22,14 +22,15 @@ public class Program {
         }
 
         //get the username and password from the command line args
-        String username = args[0];
-        String password = args[1];
+        System.setProperty("dbUsername", args[0]);
+        System.setProperty("dbPassword", args[1]);
 
-
-        dataSource.setUrl("jdbc:mysql://localhost:3306/cardealershipdb");
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-
+//public static void main(String[] args) {
+// if (args.length != 2) {
+// System.out.println("Usage: java -jar app.jar <username> <password>");        System.exit(1);    }
+// System.setProperty("dbUsername", args[0]);
+// System.setProperty("dbPassword", args[1]);
+// SpringApplication.run(DealershipApiApplication.class, args);}
         // Pass dataSource to the DAO class
        // VehicleDao.dataSource = dataSource;
 

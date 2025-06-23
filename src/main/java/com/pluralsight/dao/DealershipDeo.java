@@ -15,6 +15,10 @@ public class DealershipDeo {
     // query => display list of dealership from
     public static BasicDataSource dataSource;
 
+    public DealershipDeo(BasicDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     public List<Dealership> getAllDealerships(BasicDataSource dataSource) {
         List<Dealership> dealerships = new ArrayList<>();
         System.out.println("starting here ...1");

@@ -38,7 +38,7 @@ public class UserInterface {
 
         vehicleDao = new VehicleDao(dataSource);
         contractDao = new ContractDao(dataSource);
-        //dealershipDao = new DealershipDeo(dataSource);
+        dealershipDao = new DealershipDeo(dataSource);//forgot to create instance
 
         Scanner scanner = new Scanner(System.in);
         boolean menuRunning = true;
