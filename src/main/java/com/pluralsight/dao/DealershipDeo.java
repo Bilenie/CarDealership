@@ -2,6 +2,8 @@ package com.pluralsight.dao;
 
 import com.pluralsight.models.Dealership;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,8 +15,9 @@ import java.util.List;
 public class DealershipDeo {
     //getting all the dealership
     // query => display list of dealership from
-    public static BasicDataSource dataSource;
+   private BasicDataSource dataSource;
 
+   @Autowired
     public DealershipDeo(BasicDataSource dataSource) {
         this.dataSource = dataSource;
     }
@@ -52,4 +55,3 @@ public class DealershipDeo {
         return dealership;
     }
 }
-

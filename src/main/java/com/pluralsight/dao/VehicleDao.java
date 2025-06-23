@@ -3,6 +3,7 @@ package com.pluralsight.dao;
 
 import com.pluralsight.models.Vehicle;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,12 +15,13 @@ import java.util.List;
 public class VehicleDao {
 
     //create our BasicDataSource/ set attribute
-    public static BasicDataSource dataSource;
+    private BasicDataSource dataSource;
 
     // Generate Constructor
+    @Autowired
     public VehicleDao(BasicDataSource dataSource) {
         this.dataSource = dataSource;
-   }
+    }
 
     // This class is where all the query happen
 // 📦 This is like a helper to turn a DB row into a Vehicle
@@ -29,7 +31,7 @@ public class VehicleDao {
         vehicle.setYear(rs.getInt("year"));
         vehicle.setMake(rs.getString("make"));
         vehicle.setModel(rs.getString("model"));
-        vehicle.setType(rs.getString("vehicle_type"));
+        vehicle.setType(rs.getString("type"));
         vehicle.setColor(rs.getString("color"));
         vehicle.setOdometer(rs.getInt("odometer"));
         vehicle.setPrice(rs.getDouble("price"));
@@ -125,7 +127,7 @@ public class VehicleDao {
         }
     }
 
-    public static ArrayList<Vehicle> getVehicleByPrice(double price1,double price2) {
+    public  ArrayList<Vehicle> getVehicleByPrice(double price1,double price2) {
 
         //create an array list to hold the vehicle we will be returning
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -178,7 +180,7 @@ public class VehicleDao {
         return vehicles;
     }
 
-    public static List<Vehicle> getVehicleByMakeModel(String make, String model) {
+    public  List<Vehicle> getVehicleByMakeModel(String make, String model) {
 
         //create an array list to hold the vehicle we will be returning
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -231,7 +233,7 @@ public class VehicleDao {
         return vehicles;
     }
 
-    public static List<Vehicle> getVehicleByYear(int yr1, int yr2) {
+    public  List<Vehicle> getVehicleByYear(int yr1, int yr2) {
 
         //create an array list to hold the vehicle we will be returning
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -282,7 +284,7 @@ public class VehicleDao {
         return vehicles;
     }
 
-    public static ArrayList<Vehicle> getVehicleByColor(String color) {
+    public  ArrayList<Vehicle> getVehicleByColor(String color) {
 
         //create an array list to hold the vehicle we will be returning
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -332,7 +334,7 @@ public class VehicleDao {
         return vehicles;
     }
 
-    public static List<Vehicle> getVehicleByMileage(double mileage1, double mileage2) {
+    public  List<Vehicle> getVehicleByMileage(double mileage1, double mileage2) {
 
         //create an array list to hold the vehicle we will be returning
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -384,7 +386,7 @@ public class VehicleDao {
         return vehicles;
     }
 
-    public static List<Vehicle> getVehicleByType(String type) {
+    public  List<Vehicle> getVehicleByType(String type) {
 
         //create an array list to hold the vehicle we will be returning
         ArrayList<Vehicle> vehicles = new ArrayList<>();
@@ -494,24 +496,3 @@ public class VehicleDao {
 //        }
 //    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
